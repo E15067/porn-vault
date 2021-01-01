@@ -1,8 +1,7 @@
 <template>
   <v-container fluid>
     <div v-if="currentStudio">
-      <BindFavicon />
-      <!-- TODO: allow studio favicons -->
+      <BindFavicon :value="favicon" />
       <BindTitle :value="currentStudio.name" />
 
       <v-row>
@@ -746,6 +745,19 @@ export default class StudioDetails extends Vue {
     } else {
       this.labelSelectorDialog = true;
     }
+  }
+
+  get favicon() {
+    if (!this.currentStudio) {
+      return null;
+    }
+    if (!this.currentStudio.thumbnail) {
+      return null;
+    }
+
+    return `${serverBase}/media/image/${
+      this.currentStudio.thumbnail._id
+    }?password=${localStorage.getItem("password")}`;
   }
 
   get thumbnail() {
